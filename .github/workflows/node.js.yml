@@ -68,5 +68,5 @@ jobs:
     # Test the server application
     - name: Test server
       run: npm test
-      working-directory: server/tests
+      working-directory: server
   
