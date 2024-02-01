@@ -17,5 +17,8 @@
     "url": "https://github.com/derussoj/cs467_job_tracker/issues"
   },
   "homepage": "https://github.com/derussoj/cs467_job_tracker#readme",
-  "description": "Welcome to the Job Tracker backend! This Node.js application provides the server-side functionality for the Job Tracker web application."
+  "description": "Welcome to the Job Tracker backend! This Node.js application provides the server-side functionality for the Job Tracker web application.",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
