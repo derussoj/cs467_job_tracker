@@ -6,8 +6,7 @@ name: Node.js CI
 on: [push, pull_request]
 
 jobs:
-  build:
-
+  client:
     runs-on: ubuntu-latest
 
     strategy:
@@ -22,34 +21,52 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: client/package-lock.json
 
     # Install dependencies in the client directory
     - name: Install client dependencies
       run: npm ci
-      working-directory: ./client
+      working-directory: client
 
     # Build the client application
     - name: Build client
       run: npm run build --if-present
-      working-directory: ./client
+      working-directory: client
 
     # Test the client application
     - name: Test client
       run: npm test
-      working-directory: ./client
-    
+      working-directory: client
+
+  server:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: server/package-lock.json
+
     # Install dependencies in the server directory
     - name: Install server dependencies
       run: npm ci
-      working-directory: ./server
+      working-directory: server
 
     # Optionally, build the server if needed
     - name: Build server
       run: npm run build --if-present
-      working-directory: ./server
+      working-directory: server
 
     # Test the server application
     - name: Test server
       run: npm test
-      working-directory: ./server
+      working-directory: server
   
