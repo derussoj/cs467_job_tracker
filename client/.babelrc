@@ -1,3 +1,11 @@
+/*
+code provided by ChatGPT4 via chat.openai.com
+
+Prompt(s): requested help eliminating errors after installing Jest
+*/
 {
-    "presets": ["@babel/preset-env", "@babel/preset-react"]
-  }
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+    ]
+}
