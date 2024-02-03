@@ -20,5 +20,11 @@
   "description": "Welcome to the Job Tracker backend! This Node.js application provides the server-side functionality for the Job Tracker web application.",
   "devDependencies": {
     "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "passport": "^0.7.0",
+    "passport-github2": "^0.1.12",
+    "passport-google-oauth20": "^2.0.0"
   }
 }
