@@ -41,6 +41,12 @@ jobs:
   server:
     runs-on: ubuntu-latest
 
+    env:
+      GITHUB_CLIENT_ID: ${{ secrets.GHUB_CLIENT_ID }}
+      GITHUB_CLIENT_SECRET: ${{ secrets.GHUB_CLIENT_SECRET }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+
     strategy:
       matrix:
         node-version: [16.x, 18.x]

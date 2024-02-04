@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 // Initialize Express app
 const app = express();
