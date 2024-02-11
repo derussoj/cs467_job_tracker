@@ -49,15 +49,32 @@ const findOrCreateUserFromGithub = async (profile) => {
 // Helper function for findOrCreateFromGoogle and findOrCreateFromGithub
 const findOrCreateUser = async () => {
     // TODO: move duplicate code here from findOrCreateUserFromGoogle and findOrCreateUserFromGithub
+    // or create a generic function that takes an additional parameter (e.g. "google" or "github")
 }
 
 // Update a user
-const updateUser = async () => {
+const updateUser = async (_id) => { // TODO: add parameters
+
+    // identify the User to update
+    const filter = { _id: _id }
+
+    // overwrite the old values
+    const update = {  } // TODO: add fields to update
+
+    const result = await User.updateOne(filter, update)
+
+    return result.modifiedCount
 }
 
 // Delete a user
-const deleteUser = async () => {
+const deleteUser = async (_id) => {
 
+    // identify the User to delete
+    const conditions = { _id: _id}
+
+    const result = await User.deleteOne(conditions)
+
+    return result.deletedCount
 }
 
 export { findOrCreateUserFromGoogle, findOrCreateUserFromGithub, updateUser, deleteUser }
