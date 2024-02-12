@@ -1,34 +1,68 @@
 import mongoose from 'mongoose'
 
-const jobApplicationSchema = new mongoose.Schema({
-    application_id: { type: Number, required: true, unique: true },
-    user_id: { type: Number, ref: 'User', required: true },
-    company_name: { type: String, required: true },
+const jobApplicationSchema = mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    company: { type: String, required: true },
     job_title: { type: String, required: true },
     application_date: { type: Date, required: true },
     application_status: { type: String, required: true },
     job_description: { type: String },
-    salary: { type: String },
+    salary: { type: String },  // Number?
     location: { type: String },
     application_notes: { type: String }
-  });
+}, { timestamps: true }) // Adds createdAt and updatedAt fields
 
-  const jobApplication = mongoose.model('JobApplication', jobApplicationSchema);
+const JobApplication = mongoose.model('JobApplication', jobApplicationSchema)
 
-// Helper function for findOrCreateFromGoogle and findOrCreateFromGithub
-const createJobApplication = async () => {
+// Create a new job application
+const createJobApplication = async (userId, company, position, applicationDate) => {
+
+    const newApplication = new JobApplication({
+        userId: userId,
+        company: company,
+        position: position,
+        applicationDate: applicationDate
+        // Add more fields as needed
+    })
+
+    return newApplication.save()
 }
 
-const getJobApplication = async () => {
+// Consider replacing "find" with "get" or "retrieve" in findJobApplicationByID and findJobApplicationsForUser
+
+// Find a job application using its ID
+const findJobApplicationByID = async (_id) => {
+    return JobApplication.findById(_id).exec()
 }
 
-// Update a user
-const updateJobApplication = async () => {
+// Find all job applications for a user
+const findJobApplicationsForUser = async (userId) => {
+    return JobApplication.find({ userId: userId }).exec()
 }
 
-// Delete a user
-const deleteJobApplication = async () => {
+// Update a job application
+const updateJobApplication = async (_id) => { // TODO: add parameters
 
+    // identify the JobApplication to update
+    const filter = { _id: _id }
+
+    // overwrite the old values
+    const update = {} // TODO: add fields to update
+
+    const result = await JobApplication.updateOne(filter, update)
+
+    return result.modifiedCount
 }
 
-export { createJobApplication, getJobApplication, updateJobApplication, deleteJobApplication }
+// Delete a job application
+const deleteJobApplication = async (_id) => {
+
+    // identify the JobApplication to delete
+    const conditions = { _id: _id }
+
+    const result = await JobApplication.deleteOne(conditions)
+
+    return result.deletedCount
+}
+
+export { createJobApplication, findJobApplicationByID, findJobApplicationsForUser, updateJobApplication, deleteJobApplication }
