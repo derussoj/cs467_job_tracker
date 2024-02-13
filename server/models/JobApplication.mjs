@@ -3,13 +3,13 @@ import mongoose from 'mongoose'
 const jobApplicationSchema = mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     company: { type: String, required: true },
-    job_title: { type: String, required: true },
-    application_date: { type: Date, required: true },
-    application_status: { type: String, required: true },
-    job_description: { type: String },
+    jobTitle: { type: String, required: true },
+    applicationDate: { type: Date, required: true },
+    applicationStatus: { type: String, required: true },
+    jobDescription: { type: String },
     salary: { type: String },  // Number?
     location: { type: String },
-    application_notes: { type: String }
+    applicationNotes: { type: String }
 }, { timestamps: true }) // Adds createdAt and updatedAt fields
 
 const JobApplication = mongoose.model('JobApplication', jobApplicationSchema)

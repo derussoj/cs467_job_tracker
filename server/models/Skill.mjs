@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const skillSchema = mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    skill_name: { type: String, required: true }
+    skillName: { type: String, required: true }
     // Add more fields as needed
 }, { timestamps: true }) // Adds createdAt and updatedAt fields
 
