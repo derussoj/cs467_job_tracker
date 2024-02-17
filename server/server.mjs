@@ -88,8 +88,31 @@ app.get('/auth/github/callback',
     res.redirect('/');
   })
 
-// Job Application routes
-app.get('/jobApplications/:userId', (req, res) => {
+/*
+Job Application routes
+*/
+// Create a new job application
+app.post('/jobApplications', (req, res) => {
+  JobApplication.createJobApplication(req.body)
+    .then(newApplication => res.status(201).json(newApplication))
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Find a job application using its ID
+app.get('/jobApplications/:id', (req, res) => {
+  JobApplication.findJobApplicationByID(req.params.id)
+    .then(jobApplication => res.status(200).json(jobApplication))
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Find all job applications for a user
+app.get('/jobApplications/user/:userId', (req, res) => {
   JobApplication.findJobApplicationsForUser(req.params.userId)
     .then(jobApplications => res.status(200).json(jobApplications))
     .catch(error => {
@@ -98,7 +121,42 @@ app.get('/jobApplications/:userId', (req, res) => {
     })
 })
 
-// Network Contact routes
+// Update a job application
+app.put('/jobApplications/:id', (req, res) => {
+  JobApplication.updateJobApplication(req.params.id, req.body)
+    .then(modifiedCount => {
+      if (modifiedCount === 0) {
+        res.status(404).json({ error: 'JobApplication not updated' })
+      } else {
+        res.status(200).json(modifiedCount)
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Delete a job application
+app.delete('/jobApplications/:id', (req, res) => {
+  JobApplication.deleteJobApplication(req.params.id)
+    .then(deletedCount => {
+      if (deletedCount === 0) {
+        res.status(404).json({ error: 'JobApplication not deleted' })
+      } else {
+        res.status(204).send()
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+/*
+Network Contact routes
+*/
+// Find all of a user's network contacts
 app.get('/networkContacts/:userId', (req, res) => {
   NetworkContact.findContactsForUser(req.params.userId)
     .then(contacts => res.status(200).json(contacts))

@@ -15,14 +15,18 @@ const jobApplicationSchema = mongoose.Schema({
 const JobApplication = mongoose.model('JobApplication', jobApplicationSchema)
 
 // Create a new job application
-const createJobApplication = async (userId, company, position, applicationDate) => {
+const createJobApplication = async (applicationData) => {
 
     const newApplication = new JobApplication({
-        userId: userId,
-        company: company,
-        position: position,
-        applicationDate: applicationDate
-        // Add more fields as needed
+        userId: applicationData.userId,
+        company: applicationData.company,
+        jobTitle: applicationData.jobTitle,
+        applicationDate: applicationData.applicationDate,
+        applicationStatus: applicationData.applicationStatus,
+        jobDescription: applicationData.jobDescription,
+        salary: applicationData.salary,
+        location: applicationData.location,
+        applicationNotes: applicationData.applicationNotes
     })
 
     return newApplication.save()
@@ -41,13 +45,23 @@ const findJobApplicationsForUser = async (userId) => {
 }
 
 // Update a job application
-const updateJobApplication = async (_id) => { // TODO: add parameters
+const updateJobApplication = async (_id, updatedApplication) => {
 
     // identify the JobApplication to update
     const filter = { _id: _id }
 
     // overwrite the old values
-    const update = {} // TODO: add fields to update
+    const update = {
+        userId: updatedApplication.userId,
+        company: updatedApplication.company,
+        jobTitle: updatedApplication.jobTitle,
+        applicationDate: updatedApplication.applicationDate,
+        applicationStatus: updatedApplication.applicationStatus,
+        jobDescription: updatedApplication.jobDescription,
+        salary: updatedApplication.salary,
+        location: updatedApplication.location,
+        applicationNotes: updatedApplication.applicationNotes
+    }
 
     const result = await JobApplication.updateOne(filter, update)
 
