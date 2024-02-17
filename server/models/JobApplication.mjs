@@ -1,24 +1,18 @@
 import mongoose from 'mongoose'
 
 const jobApplicationSchema = mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    company: String,
-    position: String,
-    applicationDate: Date
-    // Add more fields as needed
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    company: { type: String, required: true },
+    jobTitle: { type: String, required: true },
+    applicationDate: { type: Date, required: true },
+    applicationStatus: { type: String, required: true },
+    jobDescription: { type: String },
+    salary: { type: String },  // Number?
+    location: { type: String },
+    applicationNotes: { type: String }
 }, { timestamps: true }) // Adds createdAt and updatedAt fields
 
 const JobApplication = mongoose.model('JobApplication', jobApplicationSchema)
-
-// Find a job application using its ID
-const findJobApplicationByID = async (_id) => {
-    return JobApplication.findById(_id).exec()
-}
-
-// Find all job applications for a user
-const findJobApplicationsForUser = async (userId) => {
-    return JobApplication.find({ userId: userId }).exec()
-}
 
 // Create a new job application
 const createJobApplication = async (userId, company, position, applicationDate) => {
@@ -32,6 +26,18 @@ const createJobApplication = async (userId, company, position, applicationDate) 
     })
 
     return newApplication.save()
+}
+
+// Consider replacing "find" with "get" or "retrieve" in findJobApplicationByID and findJobApplicationsForUser
+
+// Find a job application using its ID
+const findJobApplicationByID = async (_id) => {
+    return JobApplication.findById(_id).exec()
+}
+
+// Find all job applications for a user
+const findJobApplicationsForUser = async (userId) => {
+    return JobApplication.find({ userId: userId }).exec()
 }
 
 // Update a job application
@@ -59,4 +65,4 @@ const deleteJobApplication = async (_id) => {
     return result.deletedCount
 }
 
-export { findJobApplicationByID, findJobApplicationsForUser, createJobApplication, updateJobApplication, deleteJobApplication }
+export { createJobApplication, findJobApplicationByID, findJobApplicationsForUser, updateJobApplication, deleteJobApplication }
