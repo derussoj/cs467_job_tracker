@@ -154,11 +154,31 @@ app.delete('/jobApplications/:id', (req, res) => {
 })
 
 /*
-Network Contact routes
+Networking Contact routes
 */
-// Find all of a user's network contacts
-app.get('/networkContacts/:userId', (req, res) => {
-  NetworkContact.findContactsForUser(req.params.userId)
+// Create a new networking contact
+app.post('/networkContacts', (req, res) => {
+  NetworkContact.createNetworkingContact(req.body)
+    .then(newContact => res.status(201).json(newContact))
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Find a networking contact using its ID
+app.get('/networkContacts/:id', (req, res) => {
+  NetworkContact.findNetworkingContactByID(req.params.id)
+    .then(contact => res.status(200).json(contact))
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Find all networking contacts for a user
+app.get('/networkContacts/user/:userId', (req, res) => {
+  NetworkContact.findNetworkingContactsForUser(req.params.userId)
     .then(contacts => res.status(200).json(contacts))
     .catch(error => {
       console.error(error)
@@ -166,7 +186,42 @@ app.get('/networkContacts/:userId', (req, res) => {
     })
 })
 
-// Skill routes
+// Update a networking contact
+app.put('/networkContacts/:id', (req, res) => {
+  NetworkContact.updateNetworkingContact(req.params.id, req.body)
+    .then(modifiedCount => {
+      if (modifiedCount === 0) {
+        res.status(404).json({ error: 'NetworkingContact not updated' })
+      } else {
+        res.status(200).json(modifiedCount)
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Delete a networking contact
+app.delete('/networkContacts/:id', (req, res) => {
+  NetworkContact.deleteNetworkingContact(req.params.id)
+    .then(deletedCount => {
+      if (deletedCount === 0) {
+        res.status(404).json({ error: 'NetworkingContact not deleted' })
+      } else {
+        res.status(204).send()
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+/*
+Skill routes
+*/
+// Find all skills for a user
 app.get('/skills/:userId', (req, res) => {
   Skill.findSkillsForUser(req.params.userId)
     .then(skills => res.status(200).json(skills))
