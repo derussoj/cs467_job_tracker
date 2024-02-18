@@ -1,10 +1,11 @@
 import mongoose from 'mongoose'
 
 const userSchema = mongoose.Schema({
-    googleId: String,
-    githubId: String,
-    displayName: String,
-    email: String
+    googleId: { type: String },
+    githubId: { type: String },
+    displayName: { type: String },
+    email: { type: String },
+    skills: { type: [String] }
     // Add more fields as needed
 }, { timestamps: true }) // Adds createdAt and updatedAt fields
 
@@ -53,13 +54,16 @@ const findOrCreateUser = async () => {
 }
 
 // Update a user
-const updateUser = async (_id) => { // TODO: add parameters
+const updateUser = async (_id, updatedUser) => {
 
     // identify the User to update
     const filter = { _id: _id }
 
     // overwrite the old values
-    const update = {  } // TODO: add fields to update
+    const update = {
+        skills: updatedUser.skills
+        // Add more fields as needed
+    }
 
     const result = await User.updateOne(filter, update)
 

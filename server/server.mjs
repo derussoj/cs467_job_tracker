@@ -66,6 +66,9 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Job Tracker API');
 })
 
+/*
+User OAuth routes
+*/
 // Google OAuth authentication and callback
 // citation: https://www.passportjs.org/packages/passport-google-oauth20/
 app.get('/auth/google',
@@ -87,6 +90,47 @@ app.get('/auth/github/callback',
     // Successful authentication, redirect home.
     res.redirect('/');
   })
+
+// Logout
+app.get('/logout', (req, res) => {
+  req.logout()
+  res.redirect('/')
+})
+
+/*
+Other User routes
+*/
+// Update a user
+app.put('/users/:id', (req, res) => {
+  User.updateUser(req.params.id, req.body)
+    .then(modifiedCount => {
+      if (modifiedCount === 0) {
+        res.status(404).json({ error: 'User not updated' })
+      } else {
+        res.status(200).json(modifiedCount)
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Delete a user
+app.delete('/users/:id', (req, res) => {
+  User.deleteUser(req.params.id)
+    .then(deletedCount => {
+      if (deletedCount === 0) {
+        res.status(404).json({ error: 'User not deleted' })
+      } else {
+        res.status(204).send()
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
 
 /*
 Job Application routes
