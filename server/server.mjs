@@ -66,6 +66,9 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Job Tracker API');
 })
 
+/*
+User OAuth routes
+*/
 // Google OAuth authentication and callback
 // citation: https://www.passportjs.org/packages/passport-google-oauth20/
 app.get('/auth/google',
@@ -88,8 +91,72 @@ app.get('/auth/github/callback',
     res.redirect('/');
   })
 
-// Job Application routes
-app.get('/jobApplications/:userId', (req, res) => {
+// Logout
+app.get('/logout', (req, res) => {
+  req.logout()
+  res.redirect('/')
+})
+
+/*
+Other User routes
+*/
+// Update a user
+app.put('/users/:id', (req, res) => {
+  User.updateUser(req.params.id, req.body)
+    .then(modifiedCount => {
+      if (modifiedCount === 0) {
+        res.status(404).json({ error: 'User not updated' })
+      } else {
+        res.status(200).json(modifiedCount)
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Delete a user
+app.delete('/users/:id', (req, res) => {
+  User.deleteUser(req.params.id)
+    .then(deletedCount => {
+      if (deletedCount === 0) {
+        res.status(404).json({ error: 'User not deleted' })
+      } else {
+        res.status(204).send()
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+/*
+Job Application routes
+*/
+// Create a new job application
+app.post('/jobApplications', (req, res) => {
+  JobApplication.createJobApplication(req.body)
+    .then(newApplication => res.status(201).json(newApplication))
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Find a job application using its ID
+app.get('/jobApplications/:id', (req, res) => {
+  JobApplication.findJobApplicationByID(req.params.id)
+    .then(jobApplication => res.status(200).json(jobApplication))
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Find all job applications for a user
+app.get('/jobApplications/user/:userId', (req, res) => {
   JobApplication.findJobApplicationsForUser(req.params.userId)
     .then(jobApplications => res.status(200).json(jobApplications))
     .catch(error => {
@@ -98,9 +165,64 @@ app.get('/jobApplications/:userId', (req, res) => {
     })
 })
 
-// Network Contact routes
-app.get('/networkContacts/:userId', (req, res) => {
-  NetworkContact.findContactsForUser(req.params.userId)
+// Update a job application
+app.put('/jobApplications/:id', (req, res) => {
+  JobApplication.updateJobApplication(req.params.id, req.body)
+    .then(modifiedCount => {
+      if (modifiedCount === 0) {
+        res.status(404).json({ error: 'JobApplication not updated' })
+      } else {
+        res.status(200).json(modifiedCount)
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Delete a job application
+app.delete('/jobApplications/:id', (req, res) => {
+  JobApplication.deleteJobApplication(req.params.id)
+    .then(deletedCount => {
+      if (deletedCount === 0) {
+        res.status(404).json({ error: 'JobApplication not deleted' })
+      } else {
+        res.status(204).send()
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+/*
+Networking Contact routes
+*/
+// Create a new networking contact
+app.post('/networkContacts', (req, res) => {
+  NetworkContact.createNetworkingContact(req.body)
+    .then(newContact => res.status(201).json(newContact))
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Find a networking contact using its ID
+app.get('/networkContacts/:id', (req, res) => {
+  NetworkContact.findNetworkingContactByID(req.params.id)
+    .then(contact => res.status(200).json(contact))
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Find all networking contacts for a user
+app.get('/networkContacts/user/:userId', (req, res) => {
+  NetworkContact.findNetworkingContactsForUser(req.params.userId)
     .then(contacts => res.status(200).json(contacts))
     .catch(error => {
       console.error(error)
@@ -108,7 +230,42 @@ app.get('/networkContacts/:userId', (req, res) => {
     })
 })
 
-// Skill routes
+// Update a networking contact
+app.put('/networkContacts/:id', (req, res) => {
+  NetworkContact.updateNetworkingContact(req.params.id, req.body)
+    .then(modifiedCount => {
+      if (modifiedCount === 0) {
+        res.status(404).json({ error: 'NetworkingContact not updated' })
+      } else {
+        res.status(200).json(modifiedCount)
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+// Delete a networking contact
+app.delete('/networkContacts/:id', (req, res) => {
+  NetworkContact.deleteNetworkingContact(req.params.id)
+    .then(deletedCount => {
+      if (deletedCount === 0) {
+        res.status(404).json({ error: 'NetworkingContact not deleted' })
+      } else {
+        res.status(204).send()
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      res.status(500).json({ error: error })
+    })
+})
+
+/*
+Skill routes
+*/
+// Find all skills for a user
 app.get('/skills/:userId', (req, res) => {
   Skill.findSkillsForUser(req.params.userId)
     .then(skills => res.status(200).json(skills))

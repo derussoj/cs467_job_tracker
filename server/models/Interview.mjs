@@ -6,7 +6,7 @@ const interviewSchema = new mongoose.Schema({
   companyName: { type: String, ref: 'JobApplication', required: true },
   interviewDateTime: { type: Date },
   interviewLocation: { type: String },
-  NetworkingContact: [{ type: String, ref: 'NetworkingContact'}],
+  networkingContactIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'NetworkingContact'}],
   interviewNotes: { type: String }
 });
 
