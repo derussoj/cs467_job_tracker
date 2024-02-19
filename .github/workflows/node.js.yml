@@ -46,6 +46,7 @@ jobs:
       GITHUB_CLIENT_SECRET: ${{ secrets.GHUB_CLIENT_SECRET }}
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
       GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
 
     strategy:
       matrix:

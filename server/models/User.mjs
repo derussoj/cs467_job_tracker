@@ -53,6 +53,11 @@ const findOrCreateUser = async () => {
     // or create a generic function that takes an additional parameter (e.g. "google" or "github")
 }
 
+// Find a user using their ID
+const findUserByID = async (_id) => {
+    return User.findById(_id).exec()
+}
+
 // Update a user
 const updateUser = async (_id, updatedUser) => {
 
@@ -74,11 +79,11 @@ const updateUser = async (_id, updatedUser) => {
 const deleteUser = async (_id) => {
 
     // identify the User to delete
-    const conditions = { _id: _id}
+    const conditions = { _id: _id }
 
     const result = await User.deleteOne(conditions)
 
     return result.deletedCount
 }
 
-export { findOrCreateUserFromGoogle, findOrCreateUserFromGithub, updateUser, deleteUser }
+export { findOrCreateUserFromGoogle, findOrCreateUserFromGithub, findUserByID, updateUser, deleteUser }
