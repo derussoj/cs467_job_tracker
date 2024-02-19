@@ -11,6 +11,7 @@ import passport from 'passport'
 import { Strategy as googleStrategy } from 'passport-google-oauth20'
 import { Strategy as githubStrategy } from 'passport-github2'
 import dotenv from 'dotenv'
+import cors from 'cors'
 dotenv.config()
 
 // MongoDB connection
@@ -20,6 +21,13 @@ mongoose.connect('mongodb://127.0.0.1:27017/jobTracker')
 
 // Initialize Express app
 const app = express()
+
+/*
+Configure the server to add the Access-Control-Allow-Origin header to its 
+responses. This header tells the browser that it's okay for the React app 
+to access cross-origin resources.
+*/
+app.use(cors());
 
 /*
 Middleware
