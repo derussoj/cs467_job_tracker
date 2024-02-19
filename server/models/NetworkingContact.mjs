@@ -26,7 +26,7 @@ const createNetworkingContact = async (contactData) => {
   return newContact.save()
 }
 
-// Find a networking contact using its ID
+// Find a networking contact using their ID
 const findNetworkingContactByID = async (_id) => {
   return NetworkingContact.findById(_id).exec()
 }
