@@ -6,6 +6,7 @@ Prompt(s): requested help eliminating errors after installing Jest
 module.exports = {
     testEnvironment: 'jsdom',
     moduleNameMapper: {
-        '\\.(css|less|scss|sass)$': '<rootDir>/__mocks__/styleMock.js'
+        '\\.(css|less|scss|sass)$': '<rootDir>/__mocks__/styleMock.js',
+        '^axios$': 'axios/dist/node/axios.cjs'
     }
 };

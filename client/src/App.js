@@ -1,26 +1,28 @@
 // src/App.js
-import React from 'react';
-// import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css'; // Import CSS file for styles
 
 function App() {
-  const handleCreateAccount = () => {
-    // Redirect to account creation page
-    console.log('Redirect to account creation');
-  };
+  const [data, setData] = useState(null);
 
-  const handleLogin = () => {
-    // Redirect to login page
-    console.log('Redirect to login');
-  };
+  useEffect(() => {
+    axios.get('http://localhost:3000')
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
+  if (data === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="app-container">
-      <h1 className="app-title">Welcome to Job Tracker</h1>
-      <div className="button-container">
-        <button className="action-button" onClick={handleCreateAccount}>Create Account</button>
-        <button className="action-button" onClick={handleLogin}>Login</button>
-      </div>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
 }
