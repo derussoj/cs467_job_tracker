@@ -47,6 +47,14 @@ jobs:
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
       GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
       SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      MONGO_URL: mongodb://localhost:27017/jobTracker
+
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+        options: '--health-cmd "mongosh --eval \"db.runCommand({ ping: 1 })\"" --health-interval 10s --health-timeout 5s --health-retries 5'
 
     strategy:
       matrix:

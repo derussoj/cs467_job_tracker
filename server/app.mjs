@@ -15,7 +15,8 @@ import cors from 'cors'
 dotenv.config()
 
 // MongoDB connection
-mongoose.connect('mongodb://127.0.0.1:27017/jobTracker')
+const mongoUri = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/jobTracker'
+mongoose.connect(mongoUri)
     .then(() => console.log('MongoDB connected successfully'))
     .catch(err => console.error('MongoDB connection error:', err))
 
