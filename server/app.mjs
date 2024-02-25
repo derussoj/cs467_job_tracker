@@ -15,7 +15,8 @@ import cors from 'cors'
 dotenv.config()
 
 // MongoDB connection
-mongoose.connect('mongodb://127.0.0.1:27017/jobTracker')
+const mongoDbUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/jobTracker'
+mongoose.connect(mongoDbUri)
     .then(() => console.log('MongoDB connected successfully'))
     .catch(err => console.error('MongoDB connection error:', err))
 
@@ -23,8 +24,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/jobTracker')
 const app = express()
 
 /*
-Configure the server to add the Access-Control-Allow-Origin header to its 
-responses. This header tells the browser that it's okay for the React app 
+Configure the server to add the Access-Control-Allow-Origin header to its
+responses. This header tells the browser that it's okay for the React app
 to access cross-origin resources.
 */
 app.use(cors());
