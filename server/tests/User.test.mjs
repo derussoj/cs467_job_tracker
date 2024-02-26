@@ -18,11 +18,8 @@ const mockGoogleProfile = {
 describe('User Model', () => {
 
     afterAll(async () => {
-        // clear the database
-        const collections = await mongoose.connection.db.collections()
-        for (let collection of collections) {
-            await collection.deleteMany({})
-        }
+        // clear the User collection
+        await mongoose.connection.db.collection('users').deleteMany({})
     })
 
     it('should create a new GitHub user when the user does not exist', async () => {
