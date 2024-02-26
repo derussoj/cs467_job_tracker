@@ -68,7 +68,7 @@ describe('GET /jobApplications/user/:userId', () => {
 // Test for updating a job application
 describe('PUT /jobApplications/:id', () => {
     it('should update an existing job application', async () => {
-        const updatedData = { ...testApplicationData, company: 'New Test Company' };
+        const updatedData = { ...testApplicationData, company: 'New Test Company' }
         const response = await request(app)
             .put(`/jobApplications/${testApplicationData._id}`)
             .send(updatedData)
