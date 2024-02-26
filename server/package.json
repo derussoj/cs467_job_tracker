@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/derussoj/cs467_job_tracker.git"
   },
+  "engines": {
+    "node": ">=16.0.0 <19.0.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

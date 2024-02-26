@@ -1,0 +1,18 @@
+
+[qgtunnel.MongoDB-1]
+accept = "127.0.0.1:27017"
+connect = "ac-pozak9t-shard-00-00.gubhplp.mongodb.net:27017"
+encrypted = false
+transparent = true
+
+[qgtunnel.MongoDB-2]
+accept = "127.0.0.2:27017"
+connect = "ac-pozak9t-shard-00-01.gubhplp.mongodb.net:27017"
+encrypted = false
+transparent = true
+
+[qgtunnel.MongoDB-3]
+accept = "127.0.0.3:27017"
+connect = "ac-pozak9t-shard-00-02.gubhplp.mongodb.net:27017"
+encrypted = false
+transparent = true
