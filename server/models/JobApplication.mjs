@@ -7,7 +7,7 @@ const jobApplicationSchema = mongoose.Schema({
     applicationDate: { type: Date, required: true },
     applicationStatus: { type: String, required: true },
     jobDescription: { type: String },
-    salary: { type: String },  // Number?
+    salary: { type: Number },
     location: { type: String },
     applicationNotes: { type: String }
 }, { timestamps: true }) // Adds createdAt and updatedAt fields
