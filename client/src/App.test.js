@@ -4,10 +4,14 @@ code provided by ChatGPT4 via chat.openai.com
 Prompt(s): requested help creating a test file and placeholder test
 */
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import App from './App';
 
 test('renders without crashing', () => {
   render(<App />);
-  expect(true).toBe(true); // Placeholder assertion
+
+  // TODO: Change this to match some text we expect to see on the working page
+  const linkElement = screen.getByText(/Loading.../i);
+  expect(linkElement).toBeInTheDocument();
 });
