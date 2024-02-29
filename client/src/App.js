@@ -1,7 +1,7 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import './App.css'; // Import CSS file for styles
 import JobApplicationsList from './components/jobApplications/JobApplicationsList';
@@ -28,7 +28,7 @@ function App() {
 
   return (
     <Router>
-      <Switch>
+      <Routes>
         <Route path="/jobApplications">
           <JobApplicationsList />
           <CreateJobApplication />
@@ -40,7 +40,7 @@ function App() {
             <pre>{JSON.stringify(data, null, 2)}</pre>
           </div>
         </Route>
-      </Switch>
+      </Routes>
       <div>
         <Link to="/auth/google">
           <button>Login with Google</button>
