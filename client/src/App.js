@@ -29,26 +29,26 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/jobApplications">
-          <JobApplicationsList />
-          <CreateJobApplication />
-          <UpdateJobApplication />
-          <DeleteJobApplication />
-        </Route>
-        <Route path="/">
+        <Route path="/jobApplications" element ={
+          <>
+            {/* <JobApplicationsList /> */}
+            <CreateJobApplication />
+            {/* <UpdateJobApplication />
+            <DeleteJobApplication /> */}
+          </>
+        } />
+        <Route path="/" element ={
           <div className="app-container">
-            <pre>{JSON.stringify(data, null, 2)}</pre>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
           </div>
-        </Route>
+        } />
       </Routes>
-      <div>
+      <div className='login-button-container'>
         <Link to="/auth/google">
-          <button>Login with Google</button>
+          <button className='google-button'>Login with Google</button>
         </Link>
-      </div>
-      <div>
         <Link to="/auth/github">
-          <button>Login with GitHub</button>
+          <button className='github-button'>Login with GitHub</button>
         </Link>
       </div>
     </Router>
