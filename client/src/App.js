@@ -37,7 +37,7 @@ function App() {
       .catch(error => {
         console.error('Error fetching user data:', error);
       });
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, [currentUser, backendUrl]);
 
   if (data === null) {
     return <div>Loading...</div>;
