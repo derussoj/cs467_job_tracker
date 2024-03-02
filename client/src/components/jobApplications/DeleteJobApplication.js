@@ -2,9 +2,11 @@ import React from 'react';
 import axios from 'axios';
 
 function DeleteJobApplication({ jobApplication }) {
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000'
+
   const handleDelete = (id) => {
     // Send a DELETE request to delete the job application
-    axios.delete(`http://localhost:3000/jobApplications/${id}`)
+    axios.delete(`${backendUrl}/jobApplications/${id}`)
       .then(() => {
         // Handle successful delete
       })
@@ -14,7 +16,7 @@ function DeleteJobApplication({ jobApplication }) {
   };
 
   return (
-    <button onClick={() => handleDelete(jobApplication.id)}>Delete</button>
+    <button onClick={() => handleDelete(jobApplication._id)}>Delete</button>
   );
 }
 
