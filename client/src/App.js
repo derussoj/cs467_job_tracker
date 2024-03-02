@@ -4,10 +4,10 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 import './App.css'; // Import CSS file for styles
-import JobApplicationsList from './components/jobApplications/JobApplicationsList';
+// import JobApplicationsList from './components/jobApplications/JobApplicationsList';
 import CreateJobApplication from './components/jobApplications/CreateJobApplication';
-import UpdateJobApplication from './components/jobApplications/UpdateJobApplication';
-import DeleteJobApplication from './components/jobApplications/DeleteJobApplication';
+// import UpdateJobApplication from './components/jobApplications/UpdateJobApplication';
+// import DeleteJobApplication from './components/jobApplications/DeleteJobApplication';
 
 function App() {
   const [data, setData] = useState(null);

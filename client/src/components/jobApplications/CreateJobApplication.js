@@ -15,8 +15,8 @@ function CreateJobApplication() {
     const [location, setLocation] = useState('');
     const [applicationNotes, setApplicationNotes] = useState('');
 
-    const [errors, setErrors] = useState({});
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    // const [errors, setErrors] = useState({});
+    // const [isSubmitted, setIsSubmitted] = useState(false);
 
     const resetForm = () => {
         setUserId('');
