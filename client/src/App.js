@@ -48,8 +48,8 @@ function App() {
       <Routes>
         <Route path="/jobApplications" element={
           <>
-            {/* <JobApplicationsList /> */}
-            <CreateJobApplication />
+            {/* <JobApplicationsList currentUser={currentUser} /> */}
+            <CreateJobApplication currentUser={currentUser} />
             {/* <UpdateJobApplication />
             <DeleteJobApplication /> */}
           </>
