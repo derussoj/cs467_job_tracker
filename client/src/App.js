@@ -12,9 +12,10 @@ import CreateJobApplication from './components/jobApplications/CreateJobApplicat
 function App() {
   const [data, setData] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000'
 
   useEffect(() => {
-    axios.get('http://localhost:3000')
+    axios.get(`${backendUrl}`)
       .then(response => {
         setData(response.data);
       })
@@ -22,7 +23,7 @@ function App() {
         console.error('Error fetching data:', error);
       });
 
-    fetch('http://localhost:3000/api/currentUser', {
+    fetch(`${backendUrl}/api/currentUser`, {
       credentials: 'include' // Required for cookies to be sent with the request
     })
       .then(response => response.json())
@@ -60,13 +61,12 @@ function App() {
         } />
       </Routes>
       <div className='login-button-container'>
-        <Link to="/auth/google">
+        <Link to={`${backendUrl}/auth/google`}>
           <button className='google-button'>Login with Google</button>
         </Link>
-        <Link to="/auth/github">
+        <Link to={`${backendUrl}/auth/github`}>
           <button className='github-button'>Login with GitHub</button>
         </Link>
-        <a href="http://localhost:3000/auth/github">Login with GitHub</a>
       </div>
 
       <div>

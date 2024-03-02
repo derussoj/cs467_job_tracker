@@ -14,6 +14,9 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 dotenv.config()
 
+const frontendUrl = process.env.frontendUrl || 'http://localhost:3001'
+const backendUrl = process.env.backendUrl || 'http://localhost:3000'
+
 // MongoDB connection
 const mongoDbUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/jobTracker'
 mongoose.connect(mongoDbUri)
@@ -73,7 +76,7 @@ https://www.passportjs.org/packages/passport-github2/
 passport.use(new googleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: `${backendUrl}/auth/google/callback`
 },
     async function (accessToken, refreshToken, profile, done) {
         try {
@@ -87,7 +90,7 @@ passport.use(new googleStrategy({
 passport.use(new githubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/github/callback"
+    callbackURL: `${backendUrl}/auth/github/callback`
 },
     async function (accessToken, refreshToken, profile, done) {
         try {
@@ -133,10 +136,9 @@ app.get('/api/currentUser', (req, res) => {
 app.get('/auth/github',
     passport.authenticate('github', { scope: ['user', 'user:email'] }))
 app.get('/auth/github/callback',
-    passport.authenticate('github', { failureRedirect: '/login' }),
+    passport.authenticate('github', { failureRedirect: `${frontendUrl}/login` }),
     function (req, res) {
         // Successful authentication, redirect home.
-        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001'
         res.redirect(`${frontendUrl}`)
     })
 
@@ -145,17 +147,16 @@ app.get('/auth/github/callback',
 app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile', 'email'] }))
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
+    passport.authenticate('google', { failureRedirect: `${frontendUrl}/login` }),
     function (req, res) {
         // Successful authentication, redirect home.
-        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001'
         res.redirect(`${frontendUrl}`)
     })
 
 // Logout
 app.get('/logout', (req, res) => {
     req.logout()
-    res.redirect('/')
+    res.redirect(`${frontendUrl}`)
 })
 
 /*
