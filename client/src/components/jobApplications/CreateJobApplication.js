@@ -79,27 +79,32 @@ function CreateJobApplication() {
       <label>
         User ID:
         <input type="text" value={userId} onChange={e => setUserId(e.target.value)} required />
+        {errors.userId && <div className="error">{errors.userId}</div>}
       </label>
       <label>
         Company:
         <input type="text" value={company} onChange={e => setCompany(e.target.value)} required />
+        {errors.company && <div className="error">{errors.company}</div>}
       </label>
       <label>
         Job Title:
         <input type="text" value={jobTitle} onChange={e => setJobTitle(e.target.value)} required />
+        {errors.jobTitle && <div className="error">{errors.jobTitle}</div>}
       </label>
       <label>
         Application Date:
         <input type="date" value={applicationDate} onChange={e => setApplicationDate(e.target.value)} required />
+        {errors.applicationDate && <div className="error">{errors.applicationDate}</div>}
       </label>
       <label>
-      Application Status:
-          <select value={applicationStatus} onChange={e => setApplicationStatus(e.target.value)} required>
-            <option value="">Select...</option>
-            {APPLICATION_STATUS_OPTIONS.map(option => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-            </select>
+        Application Status:
+        <select value={applicationStatus} onChange={e => setApplicationStatus(e.target.value)} required>
+          <option value="">Select...</option>
+          {APPLICATION_STATUS_OPTIONS.map(option => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
+        {errors.applicationStatus && <div className="error">{errors.applicationStatus}</div>}
       </label>
       <label>
         Job Description:
@@ -118,6 +123,7 @@ function CreateJobApplication() {
         <textarea value={applicationNotes} onChange={e => setApplicationNotes(e.target.value)} />
       </label>
       <button type="submit">Create</button>
+      {isSubmitted && <div className="success">Job application created successfully!</div>}
     </form>
   </div>
   );
