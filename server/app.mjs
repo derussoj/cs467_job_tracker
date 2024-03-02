@@ -28,7 +28,10 @@ Configure the server to add the Access-Control-Allow-Origin header to its
 responses. This header tells the browser that it's okay for the React app
 to access cross-origin resources.
 */
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3001', // URL of the React app
+    credentials: true, // to support credentials like cookies
+}))
 
 /*
 Middleware
@@ -100,12 +103,31 @@ passport.use(new githubStrategy({
 Routes
 */
 app.get('/', (req, res) => {
-    res.send('Welcome to the Job Tracker API');
+    res.send('Welcome to the Job Tracker API')
 })
 
 /*
 User OAuth routes
 */
+app.get('/api/currentUser', (req, res) => {
+    if (req.user) {
+        // The user is logged in
+        // Send back user info
+        res.json({
+            isLoggedIn: true,
+            user: {
+                id: req.user._id,
+                displayName: req.user.displayName,
+                email: req.user.email,
+                skills: req.user.skills
+            }
+        })
+    } else {
+        // The user is not logged in
+        res.json({ isLoggedIn: false })
+    }
+})
+
 // GitHub OAuth authentication and callback
 // citation: https://www.passportjs.org/packages/passport-github2/
 app.get('/auth/github',
@@ -114,7 +136,8 @@ app.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/login' }),
     function (req, res) {
         // Successful authentication, redirect home.
-        res.redirect('/')
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001'
+        res.redirect(`${frontendUrl}`)
     })
 
 // Google OAuth authentication and callback
@@ -125,7 +148,8 @@ app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
     function (req, res) {
         // Successful authentication, redirect home.
-        res.redirect('/')
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001'
+        res.redirect(`${frontendUrl}`)
     })
 
 // Logout

@@ -11,6 +11,7 @@ import DeleteJobApplication from './components/jobApplications/DeleteJobApplicat
 
 function App() {
   const [data, setData] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     axios.get('http://localhost:3000')
@@ -20,7 +21,22 @@ function App() {
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-  }, []);
+
+    fetch('http://localhost:3000/api/currentUser', {
+      credentials: 'include' // Required for cookies to be sent with the request
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.isLoggedIn) {
+          setCurrentUser(data.user); // Save the user's info in state
+        } else {
+          setCurrentUser(null);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+  }, []); // Empty dependency array means this effect runs once on mount
 
   if (data === null) {
     return <div>Loading...</div>;
@@ -29,7 +45,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/jobApplications" element ={
+        <Route path="/jobApplications" element={
           <>
             {/* <JobApplicationsList /> */}
             <CreateJobApplication />
@@ -37,9 +53,9 @@ function App() {
             <DeleteJobApplication /> */}
           </>
         } />
-        <Route path="/" element ={
+        <Route path="/" element={
           <div className="app-container">
-          <pre>{JSON.stringify(data, null, 2)}</pre>
+            <pre>{JSON.stringify(data, null, 2)}</pre>
           </div>
         } />
       </Routes>
@@ -50,6 +66,19 @@ function App() {
         <Link to="/auth/github">
           <button className='github-button'>Login with GitHub</button>
         </Link>
+        <a href="http://localhost:3000/auth/github">Login with GitHub</a>
+      </div>
+
+      <div>
+        {currentUser ? (
+          <div>
+            <h1>Welcome, {currentUser.displayName}!</h1>
+            {/* Render other parts of your app or user info here */}
+          </div>
+        ) : (
+          <h1>Please log in.</h1>
+          // Render login link or button here
+        )}
       </div>
     </Router>
   );
