@@ -4,8 +4,7 @@ import axios from 'axios';
 import { APPLICATION_STATUS_OPTIONS } from '../constants';
 
 // This component includes a form to create a new job application.
-function CreateJobApplication() {
-    const [userId, setUserId] = useState('');
+function CreateJobApplication({ currentUser }) {
     const [company, setCompany] = useState('');
     const [jobTitle, setJobTitle] = useState('');
     const [applicationDate, setApplicationDate] = useState('');
@@ -18,8 +17,9 @@ function CreateJobApplication() {
     const [errors, setErrors] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
 
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000'
+
     const resetForm = () => {
-        setUserId('');
         setCompany('');
         setJobTitle('');
         setApplicationDate('');
@@ -38,7 +38,6 @@ function CreateJobApplication() {
         const newErrors = {};
 
         // Validate the form data
-        if (!userId) newErrors.userId = 'User ID is required.';
         if (!company) newErrors.company = 'Company is required.';
         if (!jobTitle) newErrors.jobTitle = 'Job title is required.';
         if (!applicationDate) newErrors.applicationDate = 'Application date is required.';
@@ -51,8 +50,8 @@ function CreateJobApplication() {
     };
 
     // Send a POST request to create a new job application
-    axios.post('http://localhost:3000/jobApplications', {
-        userId,
+    axios.post(`${backendUrl}/jobApplications`, {
+        userId: currentUser._id,
         company,
         jobTitle,
         applicationDate,
@@ -76,11 +75,6 @@ function CreateJobApplication() {
     <div className="form-container">
         <h2>Create Job Application</h2>
     <form onSubmit={handleCreate}>
-      <label>
-        User ID:
-        <input type="text" value={userId} onChange={e => setUserId(e.target.value)} required />
-        {errors.userId && <div className="error">{errors.userId}</div>}
-      </label>
       <label>
         Company:
         <input type="text" value={company} onChange={e => setCompany(e.target.value)} required />
