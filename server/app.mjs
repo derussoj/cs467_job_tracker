@@ -14,6 +14,9 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 dotenv.config()
 
+const frontendUrl = process.env.frontendUrl || 'http://localhost:3001'
+const backendUrl = process.env.backendUrl || 'http://localhost:3000'
+
 // MongoDB connection
 const mongoDbUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/jobTracker'
 mongoose.connect(mongoDbUri)
@@ -28,7 +31,10 @@ Configure the server to add the Access-Control-Allow-Origin header to its
 responses. This header tells the browser that it's okay for the React app
 to access cross-origin resources.
 */
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3001', // URL of the React app
+    credentials: true, // to support credentials like cookies
+}))
 
 /*
 Middleware
@@ -70,7 +76,7 @@ https://www.passportjs.org/packages/passport-github2/
 passport.use(new googleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: `${backendUrl}/auth/google/callback`
 },
     async function (accessToken, refreshToken, profile, done) {
         try {
@@ -84,7 +90,7 @@ passport.use(new googleStrategy({
 passport.use(new githubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/github/callback"
+    callbackURL: `${backendUrl}/auth/github/callback`
 },
     async function (accessToken, refreshToken, profile, done) {
         try {
@@ -100,21 +106,40 @@ passport.use(new githubStrategy({
 Routes
 */
 app.get('/', (req, res) => {
-    res.send('Welcome to the Job Tracker API');
+    res.send('Welcome to the Job Tracker API')
 })
 
 /*
 User OAuth routes
 */
+app.get('/api/currentUser', (req, res) => {
+    if (req.user) {
+        // The user is logged in
+        // Send back user info
+        res.json({
+            isLoggedIn: true,
+            user: {
+                id: req.user._id,
+                displayName: req.user.displayName,
+                email: req.user.email,
+                skills: req.user.skills
+            }
+        })
+    } else {
+        // The user is not logged in
+        res.json({ isLoggedIn: false })
+    }
+})
+
 // GitHub OAuth authentication and callback
 // citation: https://www.passportjs.org/packages/passport-github2/
 app.get('/auth/github',
     passport.authenticate('github', { scope: ['user', 'user:email'] }))
 app.get('/auth/github/callback',
-    passport.authenticate('github', { failureRedirect: '/login' }),
+    passport.authenticate('github', { failureRedirect: `${frontendUrl}/login` }),
     function (req, res) {
         // Successful authentication, redirect home.
-        res.redirect('/')
+        res.redirect(`${frontendUrl}`)
     })
 
 // Google OAuth authentication and callback
@@ -122,16 +147,16 @@ app.get('/auth/github/callback',
 app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile', 'email'] }))
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
+    passport.authenticate('google', { failureRedirect: `${frontendUrl}/login` }),
     function (req, res) {
         // Successful authentication, redirect home.
-        res.redirect('/')
+        res.redirect(`${frontendUrl}`)
     })
 
 // Logout
 app.get('/logout', (req, res) => {
     req.logout()
-    res.redirect('/')
+    res.redirect(`${frontendUrl}`)
 })
 
 /*
