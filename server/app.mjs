@@ -14,8 +14,8 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 dotenv.config()
 
-const frontendUrl = process.env.frontendUrl || 'http://localhost:3001'
-const backendUrl = process.env.backendUrl || 'http://localhost:3000'
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001'
+const backendUrl = process.env.BACKEND_URL || 'http://localhost:3000'
 
 // MongoDB connection
 const mongoDbUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/jobTracker'
@@ -31,15 +31,9 @@ Configure the server to add the Access-Control-Allow-Origin header to its
 responses. This header tells the browser that it's okay for the React app
 to access cross-origin resources.
 */
-const allowedOrigins = ['http://localhost:3001', 'https://cs467-job-tracker.netlify.app']
+const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:3001'
 app.use(cors({
-    origin: function (origin, callback) {
-        if (allowedOrigins.indexOf(origin) === -1) {
-            var msg = 'The CORS policy for this site does not allow access from the specified Origin.'
-            return callback(new Error(msg), false)
-        }
-        return callback(null, true)
-    },
+    origin: allowedOrigin,
     credentials: true, // to support credentials like cookies
 }))
 
