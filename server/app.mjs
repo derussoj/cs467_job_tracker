@@ -14,8 +14,8 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 dotenv.config()
 
-const frontendUrl = process.env.frontendUrl || 'http://localhost:3001'
-const backendUrl = process.env.backendUrl || 'http://localhost:3000'
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001'
+const backendUrl = process.env.BACKEND_URL || 'http://localhost:3000'
 
 // MongoDB connection
 const mongoDbUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/jobTracker'
@@ -31,8 +31,9 @@ Configure the server to add the Access-Control-Allow-Origin header to its
 responses. This header tells the browser that it's okay for the React app
 to access cross-origin resources.
 */
+const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:3001'
 app.use(cors({
-    origin: 'http://localhost:3001', // URL of the React app
+    origin: allowedOrigin,
     credentials: true, // to support credentials like cookies
 }))
 
