@@ -14,8 +14,11 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 dotenv.config()
 
+const isProduction = process.env.NODE_ENV === 'production'
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001'
 const backendUrl = process.env.BACKEND_URL || 'http://localhost:3000'
+const githubClientID = isProduction ? process.env.GITHUB_CLIENT_ID : process.env.GITHUB_CLIENT_ID_DEV
+const githubClientSecret = isProduction ? process.env.GITHUB_CLIENT_SECRET : process.env.GITHUB_CLIENT_SECRET_DEV
 
 // MongoDB connection
 const mongoDbUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/jobTracker'
@@ -89,8 +92,8 @@ passport.use(new googleStrategy({
     }
 ))
 passport.use(new githubStrategy({
-    clientID: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    clientID: githubClientID,
+    clientSecret: githubClientSecret,
     callbackURL: `${backendUrl}/auth/github/callback`
 },
     async function (accessToken, refreshToken, profile, done) {
