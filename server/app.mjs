@@ -5,6 +5,7 @@ import * as NetworkingContact from './models/NetworkingContact.mjs'
 
 import express from 'express'
 import session from 'express-session'
+import mongoStore from 'connect-mongo'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import passport from 'passport'
@@ -50,7 +51,8 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
+    store: mongoStore.create({ mongoUrl: mongoDbUri }),
+    cookie: { secure: 'auto' }
 }))
 
 // Initialize Passport and restore authentication state, if any, from the session
