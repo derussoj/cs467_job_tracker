@@ -12,6 +12,6 @@ test('renders without crashing', () => {
   render(<App />);
 
   // TODO: Change this to match some text we expect to see on the working page
-  const linkElement = screen.getByText(/Loading.../i);
+  const linkElement = screen.getByText(/HomePage placeholder/i);
   expect(linkElement).toBeInTheDocument();
 });

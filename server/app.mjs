@@ -5,7 +5,7 @@ import * as NetworkingContact from './models/NetworkingContact.mjs'
 
 import express from 'express'
 import session from 'express-session'
-import mongoStore from 'connect-mongo'
+import MongoStore from 'connect-mongo'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import passport from 'passport'
@@ -51,8 +51,14 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    store: mongoStore.create({ mongoUrl: mongoDbUri }),
-    cookie: { secure: 'auto' }
+    store: MongoStore.create({
+        client: mongoose.connection.getClient(),
+    }),
+    cookie: {
+        secure: process.env.NODE_ENV === 'production', // Use 'true' in production, 'false' in development
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    }
 }))
 
 // Initialize Passport and restore authentication state, if any, from the session
@@ -160,9 +166,11 @@ app.get('/auth/google/callback',
     })
 
 // Logout
-app.get('/logout', (req, res) => {
-    req.logout()
-    res.redirect(`${frontendUrl}`)
+app.post('/auth/logout', (req, res) => {
+    req.logout(function (err) {
+        if (err) { return next(err) }
+        res.redirect('/')
+    })
 })
 
 /*
