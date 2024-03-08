@@ -56,7 +56,7 @@ function App() {
         <Routes>
           <Route path="/about" element={<AboutPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage backendUrl={backendUrl} />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/jobApplications" element={
             <>
@@ -67,15 +67,6 @@ function App() {
             </>
           } />
         </Routes>
-      </div>
-
-      <div className='login-button-container'>
-        <Link to={`${backendUrl}/auth/google`}>
-          <Button variant="primary">Log in with Google</Button>
-        </Link>
-        <Link to={`${backendUrl}/auth/github`}>
-          <Button variant="primary">Log in with GitHub</Button>
-        </Link>
       </div>
 
       <div>

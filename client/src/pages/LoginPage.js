@@ -1,11 +1,13 @@
 import React from 'react';
+import LoginButtons from '../components/auth/LoginButtons';
 
-function LoginPage() {
-  return (
-    <div>
-      {/* Component content here */}
-    </div>
-  );
+function LoginPage({ backendUrl }) {
+    return (
+        <div>
+            <h2>Login Page</h2>
+            <LoginButtons backendUrl={backendUrl} />
+        </div>
+    );
 }
 
 export default LoginPage;
