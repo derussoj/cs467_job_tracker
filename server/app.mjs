@@ -5,7 +5,7 @@ import * as NetworkingContact from './models/NetworkingContact.mjs'
 
 import express from 'express'
 import session from 'express-session'
-import mongoStore from 'connect-mongo'
+import MongoStore from 'connect-mongo'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import passport from 'passport'
@@ -51,7 +51,9 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    store: mongoStore.create({ mongoUrl: mongoDbUri }),
+    store: MongoStore.create({
+        client: mongoose.connection.getClient(),
+    }),
     cookie: { secure: 'auto' }
 }))
 

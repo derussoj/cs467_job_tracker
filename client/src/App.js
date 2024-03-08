@@ -37,7 +37,7 @@ function App() {
       .catch(error => {
         console.error('Error fetching user data:', error);
       });
-  }, [currentUser, backendUrl]);
+  }, [backendUrl]);
 
   if (data === null) {
     return <div>Loading...</div>;
