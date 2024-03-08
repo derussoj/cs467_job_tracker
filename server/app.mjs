@@ -54,7 +54,11 @@ app.use(session({
     store: MongoStore.create({
         client: mongoose.connection.getClient(),
     }),
-    cookie: { secure: 'auto' }
+    cookie: {
+        secure: process.env.NODE_ENV === 'production', // Use 'true' in production, 'false' in development
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    }
 }))
 
 // Initialize Passport and restore authentication state, if any, from the session
