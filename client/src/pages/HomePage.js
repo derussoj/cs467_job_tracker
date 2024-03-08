@@ -1,11 +1,11 @@
 import React from 'react';
 
 function HomePage() {
-  return (
-    <div>
-      {/* Component content here */}
-    </div>
-  );
+    return (
+        <div>
+            <h2>HomePage placeholder</h2>
+        </div>
+    );
 }
 
 export default HomePage;

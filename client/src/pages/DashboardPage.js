@@ -1,11 +1,11 @@
 import React from 'react';
 
 function DashboardPage() {
-  return (
-    <div>
-      {/* Component content here */}
-    </div>
-  );
+    return (
+        <div>
+            <h2>DashboardPage placeholder</h2>
+        </div>
+    );
 }
 
 export default DashboardPage;

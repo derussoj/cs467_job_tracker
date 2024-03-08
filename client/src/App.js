@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
 
 // import './App.css'; // Import CSS file for styles
 // import JobApplicationsList from './components/jobApplications/JobApplicationsList';
@@ -67,18 +66,6 @@ function App() {
             </>
           } />
         </Routes>
-      </div>
-
-      <div>
-        {currentUser ? (
-          <div>
-            <h1>Welcome, {currentUser.displayName}!</h1>
-            {/* Render other parts of your app or user info here */}
-          </div>
-        ) : (
-          <h1>Please log in.</h1>
-          // Render login link or button here
-        )}
       </div>
     </Router>
   );
