@@ -166,9 +166,11 @@ app.get('/auth/google/callback',
     })
 
 // Logout
-app.get('/logout', (req, res) => {
-    req.logout()
-    res.redirect(`${frontendUrl}`)
+app.post('/auth/logout', (req, res) => {
+    req.logout(function (err) {
+        if (err) { return next(err) }
+        res.redirect('/')
+    })
 })
 
 /*
