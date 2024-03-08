@@ -13,10 +13,10 @@ function NavBar({ currentUser, onLogout }) {
                         {currentUser ? (
                             <>
                                 <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-                                <Nav.Link as="button" onClick={onLogout}>Logout</Nav.Link>
+                                <Nav.Link onClick={onLogout} style={{cursor: 'pointer'}}>Log Out</Nav.Link>
                             </>
                         ) : (
-                            <Nav.Link href="/login">Login</Nav.Link>
+                            <Nav.Link href="/login">Log In</Nav.Link>
                         )}
                         <Nav.Link href="/about">About</Nav.Link>
                     </Nav>
