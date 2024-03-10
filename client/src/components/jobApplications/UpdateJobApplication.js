@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { APPLICATION_STATUS_OPTIONS } from '../constants';
 
 // This component receives a job application as a prop and includes a form to update it.
