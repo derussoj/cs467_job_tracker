@@ -33,21 +33,21 @@ function CreateJobApplication({ currentUser }) {
     };
 
     const handleCreate = (event) => {
-        event.preventDefault();
+      event.preventDefault();
 
-        const newErrors = {};
+      const newErrors = {};
 
-        // Validate the form data
-        if (!company) newErrors.company = 'Company is required.';
-        if (!jobTitle) newErrors.jobTitle = 'Job title is required.';
-        if (!applicationDate) newErrors.applicationDate = 'Application date is required.';
-        if (!applicationStatus) newErrors.applicationStatus = 'Application status is required.';
+      // Validate the form data
+      if (!company) newErrors.company = 'Company is required.';
+      if (!jobTitle) newErrors.jobTitle = 'Job title is required.';
+      if (!applicationDate) newErrors.applicationDate = 'Application date is required.';
+      if (!applicationStatus) newErrors.applicationStatus = 'Application status is required.';
 
-        if (Object.keys(newErrors).length > 0) {
-        // If there are errors, update the errors state and stop the form submission
-        setErrors(newErrors);
-        return;
-    };
+      if (Object.keys(newErrors).length > 0) {
+      // If there are errors, update the errors state and stop the form submission
+      setErrors(newErrors);
+      return;
+      };
 
     // Send a POST request to create a new job application
     axios.post(`${backendUrl}/jobApplications`, {
