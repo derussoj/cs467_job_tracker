@@ -1,7 +1,6 @@
 
 import React, { useState, useRef } from 'react';
 import { Modal, Button, Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
-import axios from 'axios';
 import { APPLICATION_STATUS_OPTIONS } from '../constants';
 
 // This component includes a form to create a new job application.
@@ -51,18 +50,31 @@ function CreateJobApplication({ backendUrl, currentUser, show, onHide }) {
     };
 
     // Send a POST request to create a new job application
-    axios.post(`${backendUrl}/jobApplications`, {
-      userId: currentUser._id,
-      company,
-      jobTitle,
-      applicationDate,
-      applicationStatus,
-      jobDescription,
-      salary,
-      location,
-      applicationNotes
+    fetch(`${backendUrl}/jobApplications`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: currentUser._id,
+        company,
+        jobTitle,
+        applicationDate,
+        applicationStatus,
+        jobDescription,
+        salary,
+        location,
+        applicationNotes
+      }),
+      credentials: 'include' // To include cookies in the request
     })
       .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
         // Handle successful create
         setIsSubmitted(true);
         setTimeout(resetForm, 1000); // Reset the form after 1 second
