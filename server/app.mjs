@@ -2,6 +2,7 @@ import * as User from './models/User.mjs'
 import * as JobApplication from './models/JobApplication.mjs'
 import * as Skill from './models/Skill.mjs'
 import * as NetworkingContact from './models/NetworkingContact.mjs'
+import * as Interview from './models/Interview.mjs'
 
 import express from 'express'
 import session from 'express-session'
@@ -328,6 +329,71 @@ app.delete('/networkingContacts/:id', (req, res) => {
         .then(deletedCount => {
             if (deletedCount === 0) {
                 res.status(404).json({ error: 'NetworkingContact not deleted' })
+            } else {
+                res.status(204).send()
+            }
+        })
+        .catch(error => {
+            console.error(error)
+            res.status(500).json({ error: error })
+        })
+})
+
+/*
+Interview routes
+*/
+// Create a new interview
+app.post('/interviews', (req, res) => {
+    Interview.createInterview(req.body)
+        .then(newInterview => res.status(201).json(newInterview))
+        .catch(error => {
+            console.error(error)
+            res.status(500).json({ error: error })
+        })
+})
+
+// Find an interview using its ID
+app.get('/interviews/:id', (req, res) => {
+    Interview.findInterviewByID(req.params.id)
+        .then(interview => res.status(200).json(interview))
+        .catch(error => {
+            console.error(error)
+            res.status(500).json({ error: error })
+        })
+})
+
+// Find all interviews for a user
+app.get('/interviews/user/:userId', (req, res) => {
+    Interview.findInterviewsForUser(req.params.userId)
+        .then(interviews => res.status(200).json(interviews))
+        .catch(error => {
+            console.error(error)
+            res.status(500).json({ error: error })
+        })
+})
+
+// Update an interview
+app.put('/interviews/:id', (req, res) => {
+    Interview.updateInterview(req.params.id, req.body)
+        .then(modifiedCount => {
+            if (modifiedCount === 0) {
+                res.status(404).json({ error: 'Interview not updated' })
+            } else {
+                res.status(200).json(modifiedCount)
+            }
+        })
+        .catch(error => {
+            console.error(error)
+            res.status(500).json({ error: error })
+        })
+})
+
+// Delete an interview
+app.delete('/interviews/:id', (req, res) => {
+    Interview.deleteInterview(req.params.id)
+        .then(deletedCount => {
+            if (deletedCount === 0) {
+                res.status(404).json({ error: 'Interview not deleted' })
             } else {
                 res.status(204).send()
             }
