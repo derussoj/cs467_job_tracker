@@ -44,7 +44,6 @@ const updateNetworkingContact = async (_id, updatedContact) => {
 
   // overwrite the old values
   const update = {
-    userId: updatedContact.userId,
     contactName: updatedContact.contactName,
     contactEmail: updatedContact.contactEmail,
     companyName: updatedContact.companyName,
