@@ -13,23 +13,21 @@ function CreateInterview({ backendUrl, currentUser, show, onHide, setRefreshList
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const interviewData = {
-            userId: currentUser.id,
-            applicationId,
-            companyName,
-            interviewDateTime,
-            interviewLocation,
-            networkingContactIds,
-            interviewNotes
-        };
-
         // Send a POST request to create a new interview
         fetch(`${backendUrl}/interviews`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ interviewData }),
+            body: JSON.stringify({
+                userId: currentUser.id,
+                applicationId,
+                companyName,
+                interviewDateTime,
+                interviewLocation,
+                networkingContactIds,
+                interviewNotes
+            }),
             credentials: 'include' // To include cookies in the request
         })
             .then(response => {
