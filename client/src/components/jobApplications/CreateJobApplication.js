@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import { APPLICATION_STATUS_OPTIONS } from '../constants';
 
@@ -16,8 +16,6 @@ function CreateJobApplication({ backendUrl, currentUser, show, onHide }) {
 
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const formRef = useRef(null);
 
   const resetForm = () => {
     setCompany('');
@@ -56,7 +54,7 @@ function CreateJobApplication({ backendUrl, currentUser, show, onHide }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        userId: currentUser._id,
+        userId: currentUser.id,
         company,
         jobTitle,
         applicationDate,
@@ -90,7 +88,7 @@ function CreateJobApplication({ backendUrl, currentUser, show, onHide }) {
         <Modal.Title>Create Job Application</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleCreate} ref={formRef}>
+        <Form onSubmit={handleCreate}>
           <FormGroup className="mb-3">
             <FormLabel>Company:</FormLabel>
             <FormControl type="text" value={company} onChange={e => setCompany(e.target.value)} required />
@@ -145,7 +143,7 @@ function CreateJobApplication({ backendUrl, currentUser, show, onHide }) {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>Close</Button>
-        <Button variant="primary" onClick={() => formRef.current && formRef.current.submit()}>
+        <Button variant="primary" onClick={(event) => handleCreate(event)}>
           Save
         </Button>
       </Modal.Footer>
