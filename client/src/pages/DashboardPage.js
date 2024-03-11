@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import JobApplicationsList from '../components/jobApplications/JobApplicationsList';
+import CreateJobApplication from '../components/jobApplications/CreateJobApplication';
+import CreateInterview from '../components/interviews/CreateInterview';
 import InterviewsList from '../components/interviews/InterviewsList';
 import FloatingActionButton from '../components/ui/FloatingActionButton';
 
 function DashboardPage({ backendUrl, currentUser }) {
     const [key, setKey] = useState('jobApplications');
+    const [showModal, setShowModal] = useState({ jobApplications: false, interviews: false });
+    const [refreshJobApplicationsList, setRefreshJobApplicationsList] = useState(false);
+    const [refreshInterviewsList, setRefreshInterviewsList] = useState(false);
 
-    // Function to handle the "Create" action
-    const handleCreateNew = () => {
-        // Logic to open a form for creating a new object
-        // use 'key' to determine which object to create
-    };
+    // Show and hide modals based on current Tab
+    const handleShowModal = (key) => setShowModal({ ...showModal, [key]: true });
+    const handleCloseModal = (key) => setShowModal({ ...showModal, [key]: false });
 
     return (
         <>
@@ -22,14 +25,40 @@ function DashboardPage({ backendUrl, currentUser }) {
                 className="mb-3"
             >
                 <Tab eventKey="jobApplications" title="Job Applications">
-                    <JobApplicationsList backendUrl={backendUrl} currentUser={currentUser} />
+                    <JobApplicationsList
+                        backendUrl={backendUrl}
+                        currentUser={currentUser}
+                        refreshList={refreshJobApplicationsList}
+                    />
                 </Tab>
                 <Tab eventKey="interviews" title="Interviews">
-                    <InterviewsList backendUrl={backendUrl} currentUser={currentUser} />
+                    <InterviewsList
+                        backendUrl={backendUrl}
+                        currentUser={currentUser}
+                        refreshList={refreshInterviewsList}
+                    />
                 </Tab>
                 {/* Other tabs */}
             </Tabs>
-            <FloatingActionButton onClick={handleCreateNew} />
+
+            <FloatingActionButton onClick={() => handleShowModal(key)} />
+
+            <CreateJobApplication
+                backendUrl={backendUrl}
+                currentUser={currentUser}
+                show={showModal.jobApplications}
+                onHide={() => handleCloseModal('jobApplications')}
+                setRefreshList={setRefreshJobApplicationsList}
+            />
+
+            <CreateInterview
+                backendUrl={backendUrl}
+                currentUser={currentUser}
+                show={showModal.interviews}
+                onHide={() => handleCloseModal('interviews')}
+                setRefreshList={setRefreshInterviewsList}
+            />
+
         </>
     );
 }
