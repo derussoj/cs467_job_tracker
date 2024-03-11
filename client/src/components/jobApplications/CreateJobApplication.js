@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Modal, Button, Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import { APPLICATION_STATUS_OPTIONS } from '../constants';

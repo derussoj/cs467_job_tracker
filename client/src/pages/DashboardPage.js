@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import JobApplicationsList from '../components/jobApplications/JobApplicationsList';
 import CreateJobApplication from '../components/jobApplications/CreateJobApplication';
+import CreateInterview from '../components/interviews/CreateInterview';
 import InterviewsList from '../components/interviews/InterviewsList';
 import FloatingActionButton from '../components/ui/FloatingActionButton';
 
 function DashboardPage({ backendUrl, currentUser }) {
     const [key, setKey] = useState('jobApplications');
     const [showModal, setShowModal] = useState({ jobApplications: false, interviews: false });
-    const [refreshList, setRefreshList] = useState(false);
+    const [refreshJobApplicationsList, setRefreshJobApplicationsList] = useState(false);
+    const [refreshInterviewsList, setRefreshInterviewsList] = useState(false);
 
     // Show and hide modals based on current Tab
     const handleShowModal = (key) => setShowModal({ ...showModal, [key]: true });
@@ -26,11 +28,15 @@ function DashboardPage({ backendUrl, currentUser }) {
                     <JobApplicationsList
                         backendUrl={backendUrl}
                         currentUser={currentUser}
-                        refreshList={refreshList}
+                        refreshList={refreshJobApplicationsList}
                     />
                 </Tab>
                 <Tab eventKey="interviews" title="Interviews">
-                    <InterviewsList backendUrl={backendUrl} currentUser={currentUser} />
+                    <InterviewsList
+                        backendUrl={backendUrl}
+                        currentUser={currentUser}
+                        refreshList={refreshInterviewsList}
+                    />
                 </Tab>
                 {/* Other tabs */}
             </Tabs>
@@ -42,7 +48,15 @@ function DashboardPage({ backendUrl, currentUser }) {
                 currentUser={currentUser}
                 show={showModal.jobApplications}
                 onHide={() => handleCloseModal('jobApplications')}
-                setRefreshList={setRefreshList}
+                setRefreshList={setRefreshJobApplicationsList}
+            />
+
+            <CreateInterview
+                backendUrl={backendUrl}
+                currentUser={currentUser}
+                show={showModal.interviews}
+                onHide={() => handleCloseModal('interviews')}
+                setRefreshList={setRefreshInterviewsList}
             />
 
         </>
