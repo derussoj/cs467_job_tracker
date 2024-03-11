@@ -4,7 +4,7 @@ import { Modal, Button, Form, FormGroup, FormControl, FormLabel } from 'react-bo
 import { APPLICATION_STATUS_OPTIONS } from '../constants';
 
 // This component includes a form to create a new job application.
-function CreateJobApplication({ backendUrl, currentUser, show, onHide }) {
+function CreateJobApplication({ backendUrl, currentUser, show, onHide, setRefreshList }) {
   const [company, setCompany] = useState('');
   const [jobTitle, setJobTitle] = useState('');
   const [applicationDate, setApplicationDate] = useState('');
@@ -75,7 +75,11 @@ function CreateJobApplication({ backendUrl, currentUser, show, onHide }) {
       .then(data => {
         // Handle successful create
         setIsSubmitted(true);
-        setTimeout(resetForm, 1000); // Reset the form after 1 second
+        setTimeout(() => {
+          resetForm();
+          onHide(); // Close the modal after successful submission and form reset
+          setRefreshList(prev => !prev); // Toggle the refreshList state to trigger a refresh
+        }, 800);
       })
       .catch(error => {
         console.error('Error creating job application:', error);

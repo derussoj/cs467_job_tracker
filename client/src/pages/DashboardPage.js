@@ -8,6 +8,7 @@ import FloatingActionButton from '../components/ui/FloatingActionButton';
 function DashboardPage({ backendUrl, currentUser }) {
     const [key, setKey] = useState('jobApplications');
     const [showModal, setShowModal] = useState({ jobApplications: false, interviews: false });
+    const [refreshList, setRefreshList] = useState(false);
 
     // Show and hide modals based on current Tab
     const handleShowModal = (key) => setShowModal({ ...showModal, [key]: true });
@@ -22,7 +23,11 @@ function DashboardPage({ backendUrl, currentUser }) {
                 className="mb-3"
             >
                 <Tab eventKey="jobApplications" title="Job Applications">
-                    <JobApplicationsList backendUrl={backendUrl} currentUser={currentUser} />
+                    <JobApplicationsList
+                        backendUrl={backendUrl}
+                        currentUser={currentUser}
+                        refreshList={refreshList}
+                    />
                 </Tab>
                 <Tab eventKey="interviews" title="Interviews">
                     <InterviewsList backendUrl={backendUrl} currentUser={currentUser} />
@@ -37,6 +42,7 @@ function DashboardPage({ backendUrl, currentUser }) {
                 currentUser={currentUser}
                 show={showModal.jobApplications}
                 onHide={() => handleCloseModal('jobApplications')}
+                setRefreshList={setRefreshList}
             />
 
         </>
