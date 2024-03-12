@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function SkillList({ currentUser }) {
+function SkillsList({ currentUser }) {
     const [skills, setSkills] = useState([]);
 
     const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000'
@@ -23,4 +23,4 @@ function SkillList({ currentUser }) {
     );
 }
 
-export default SkillList;
+export default SkillsList;
