@@ -5,17 +5,23 @@ import { APPLICATION_STATUS_OPTIONS } from '../constants';
 
 // This component receives a job application as a prop and includes a form to update it.
 function UpdateJobApplication({ jobApplication, backendUrl, show, onHide, setRefreshList }) {
-  const [company, setCompany] = useState(jobApplication.company);
-  const [jobTitle, setJobTitle] = useState(jobApplication.jobTitle);
-  const [applicationDate, setApplicationDate] = useState(jobApplication.applicationDate);
-  const [applicationStatus, setApplicationStatus] = useState(jobApplication.applicationStatus);
-  const [jobDescription, setJobDescription] = useState(jobApplication.jobDescription);
-  const [salary, setSalary] = useState(jobApplication.salary);
-  const [location, setLocation] = useState(jobApplication.location);
-  const [applicationNotes, setApplicationNotes] = useState(jobApplication.applicationNotes);
+  
+  const [company, setCompany] = useState(jobApplication ? jobApplication.company : '');
+  const [jobTitle, setJobTitle] = useState(jobApplication ? jobApplication.jobTitle : '');
+  const [applicationDate, setApplicationDate] = useState(jobApplication ? jobApplication.applicationDate.toISOString().substring(0, 10) : '');
+  const [applicationStatus, setApplicationStatus] = useState(jobApplication ? jobApplication.applicationStatus : '');
+  const [jobDescription, setJobDescription] = useState(jobApplication ? jobApplication.jobDescription : '');
+  const [salary, setSalary] = useState(jobApplication && jobApplication.salary ? jobApplication.salary.toString() : '');
+  const [location, setLocation] = useState(jobApplication ? jobApplication.location : '');
+  const [applicationNotes, setApplicationNotes] = useState(jobApplication ? jobApplication.applicationNotes : '');
 
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  if (!jobApplication) {
+    // Render nothing (or <div>a placeholder message</div>) until jobApplication is available
+    return null;
+  }
 
   const resetForm = () => {
     setCompany('');
@@ -53,7 +59,7 @@ function UpdateJobApplication({ jobApplication, backendUrl, show, onHide, setRef
       applicationDate,
       applicationStatus,
       jobDescription,
-      salary,
+      salary: salary !== '' ? Number(salary) : null,
       location,
       applicationNotes
     };
