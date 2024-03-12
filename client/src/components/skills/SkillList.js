@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function SkillsList({ currentUser }) {
+function SkillsList({ backendUrl, currentUser }) {
     const [skills, setSkills] = useState([]);
 
-    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000'
-
     useEffect(() => {
-        const fetchSkills = async () => {
-            const response = await axios.get(`${backendUrl}/skills/user/${currentUser.id}`);
-            setSkills(response.data);
-        };
-        fetchSkills();
-    }, [currentUser.id, backendUrl]);
+        if (currentUser !== null) {
+            const fetchSkills = async () => {
+                const response = await axios.get(`${backendUrl}/skills/${currentUser.id}`);
+                setSkills(response.data);
+            };
+            fetchSkills();
+        }
+    }, [currentUser, backendUrl]);
 
     return (
         <ul>

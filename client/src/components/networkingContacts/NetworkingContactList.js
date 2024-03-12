@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function NetworkingContactsList({ currentUser }) {
+function NetworkingContactsList({ backendUrl, currentUser }) {
     const [contacts, setContacts] = useState([]);
 
-    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000'
-
     useEffect(() => {
-        const fetchContacts = async () => {
-            const response = await axios.get(`${backendUrl}/networkingContacts/user/${currentUser.id}`);
-            setContacts(response.data);
-        };
-        fetchContacts();
-    }, [currentUser.id, backendUrl]);
+        if (currentUser !== null) {
+            const fetchContacts = async () => {
+                const response = await axios.get(`${backendUrl}/networkingContacts/user/${currentUser.id}`);
+                setContacts(response.data);
+            };
+            fetchContacts();
+        }
+    }, [currentUser, backendUrl]);
 
     return (
         <ul>
