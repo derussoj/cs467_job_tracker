@@ -14,7 +14,6 @@ function CreateJobApplication({ backendUrl, currentUser, show, onHide, setRefres
   const [applicationNotes, setApplicationNotes] = useState('');
 
   const [errors, setErrors] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const resetForm = () => {
     setCompany('');
@@ -26,7 +25,6 @@ function CreateJobApplication({ backendUrl, currentUser, show, onHide, setRefres
     setLocation('');
     setApplicationNotes('');
     setErrors({});
-    setIsSubmitted(false);
   };
 
   const handleCreate = (event) => {
@@ -73,7 +71,6 @@ function CreateJobApplication({ backendUrl, currentUser, show, onHide, setRefres
       })
       .then(data => {
         // Handle successful create
-        setIsSubmitted(true);
         setTimeout(() => {
           resetForm();
           onHide(); // Close the modal after successful submission and form reset
@@ -91,7 +88,7 @@ function CreateJobApplication({ backendUrl, currentUser, show, onHide, setRefres
         <Modal.Title>Create Job Application</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleCreate}>
+        <Form>
           <FormGroup className="mb-3">
             <FormLabel>Company:</FormLabel>
             <FormControl type="text" value={company} onChange={e => setCompany(e.target.value)} required />
@@ -140,8 +137,6 @@ function CreateJobApplication({ backendUrl, currentUser, show, onHide, setRefres
             <FormLabel>Application Notes:</FormLabel>
             <FormControl as="textarea" value={applicationNotes} onChange={e => setApplicationNotes(e.target.value)} />
           </FormGroup>
-
-          {isSubmitted && <div className="success">Job application created successfully!</div>}
         </Form>
       </Modal.Body>
       <Modal.Footer>

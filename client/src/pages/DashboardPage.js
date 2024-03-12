@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import JobApplicationsList from '../components/jobApplications/JobApplicationsList';
-import CreateJobApplication from '../components/jobApplications/CreateJobApplication';
-import CreateInterview from '../components/interviews/CreateInterview';
 import InterviewsList from '../components/interviews/InterviewsList';
 import FloatingActionButton from '../components/ui/FloatingActionButton';
+import CreateJobApplication from '../components/jobApplications/CreateJobApplication';
+import CreateInterview from '../components/interviews/CreateInterview';
 
 function DashboardPage({ backendUrl, currentUser }) {
     const [key, setKey] = useState('jobApplications');
@@ -29,6 +29,7 @@ function DashboardPage({ backendUrl, currentUser }) {
                         backendUrl={backendUrl}
                         currentUser={currentUser}
                         refreshList={refreshJobApplicationsList}
+                        setRefreshList={setRefreshJobApplicationsList}
                     />
                 </Tab>
                 <Tab eventKey="interviews" title="Interviews">
@@ -36,6 +37,7 @@ function DashboardPage({ backendUrl, currentUser }) {
                         backendUrl={backendUrl}
                         currentUser={currentUser}
                         refreshList={refreshInterviewsList}
+                        setRefreshList={setRefreshInterviewsList}
                     />
                 </Tab>
                 {/* Other tabs */}
@@ -50,7 +52,6 @@ function DashboardPage({ backendUrl, currentUser }) {
                 onHide={() => handleCloseModal('jobApplications')}
                 setRefreshList={setRefreshJobApplicationsList}
             />
-
             <CreateInterview
                 backendUrl={backendUrl}
                 currentUser={currentUser}
@@ -58,7 +59,6 @@ function DashboardPage({ backendUrl, currentUser }) {
                 onHide={() => handleCloseModal('interviews')}
                 setRefreshList={setRefreshInterviewsList}
             />
-
         </>
     );
 }
