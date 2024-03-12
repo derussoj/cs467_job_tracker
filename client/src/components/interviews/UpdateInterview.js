@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
-function UpdateInterview({ match, currentUser }) {
+function UpdateInterview({ backendUrl, currentUser, interview }) {
     const [applicationId, setApplicationId] = useState('');
     const [companyName, setCompanyName] = useState('');
     const [interviewDateTime, setInterviewDateTime] = useState('');
     const [interviewLocation, setInterviewLocation] = useState('');
     const [networkingContactIds, setNetworkingContactIds] = useState([]);
     const [interviewNotes, setInterviewNotes] = useState('');
-
-    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000'
 
     const resetForm = () => {
         setApplicationId('');
@@ -20,19 +18,19 @@ function UpdateInterview({ match, currentUser }) {
         setInterviewNotes('');
     }
 
-    useEffect(() => {
-        const fetchInterview = async () => {
-            const response = await axios.get(`${backendUrl}/interviews/${match.params.id}`);
-            const interview = response.data;
-            setApplicationId(interview.applicationId);
-            setCompanyName(interview.companyName);
-            setInterviewDateTime(interview.interviewDateTime);
-            setInterviewLocation(interview.interviewLocation);
-            setNetworkingContactIds(interview.networkingContactIds);
-            setInterviewNotes(interview.interviewNotes);
-        };
-        fetchInterview();
-    }, [match.params.id, backendUrl]);
+    // useEffect(() => {
+    //     const fetchInterview = async () => {
+    //         const response = await axios.get(`${backendUrl}/interviews/${interview._id}`);
+    //         const interview = response.data;
+    //         setApplicationId(interview.applicationId);
+    //         setCompanyName(interview.companyName);
+    //         setInterviewDateTime(interview.interviewDateTime);
+    //         setInterviewLocation(interview.interviewLocation);
+    //         setNetworkingContactIds(interview.networkingContactIds);
+    //         setInterviewNotes(interview.interviewNotes);
+    //     };
+    //     fetchInterview();
+    // }, [interview._id, backendUrl]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -47,16 +45,15 @@ function UpdateInterview({ match, currentUser }) {
             interviewNotes
         };
 
-        await axios.put(`${backendUrl}/interviews/${match.params.id}`, interviewData)
+        await axios.put(`${backendUrl}/interviews/${interview._id}`, interviewData)
           .then(response => {
             console.log('Update successful:', response.data);
-            setIsSubmitted(true);
             setTimeout(resetForm, 1000); // Reset the form after 1 second
           })
           .catch(error => {
               // Handle error
               console.error('Error updating interview:', error);
-              setErrors({ submit: 'Error updating interview' });
+              // setErrors({ submit: 'Error updating interview' });
           });
     };
 
