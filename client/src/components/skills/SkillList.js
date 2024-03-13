@@ -6,7 +6,6 @@ import ConfirmModal from '../ui/ConfirmModal';
 
 function SkillsList({ backendUrl, currentUser, setCurrentUser, refreshList, setRefreshList }) {
     const [skills, setSkills] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [selectedSkill, setSelectedSkill] = useState(null);
@@ -14,7 +13,6 @@ function SkillsList({ backendUrl, currentUser, setCurrentUser, refreshList, setR
 
     useEffect(() => {
         if (currentUser !== null) {
-            setLoading(true);
             fetch(`${backendUrl}/api/currentUser`, {
                 credentials: 'include' // Required for cookies to be sent with the request
             })
@@ -27,11 +25,9 @@ function SkillsList({ backendUrl, currentUser, setCurrentUser, refreshList, setR
                         setCurrentUser(null);
                         setSkills([]);
                     }
-                    setLoading(false);
                 })
                 .catch(error => {
                     console.error('Error fetching user data:', error);
-                    setLoading(false);
                 });
         }
     }, [backendUrl, currentUser, setCurrentUser, refreshList]);
@@ -95,10 +91,6 @@ function SkillsList({ backendUrl, currentUser, setCurrentUser, refreshList, setR
         setShowConfirmModal(false);
         setSelectedSkill(null);
     };
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <>
