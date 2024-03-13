@@ -10,7 +10,7 @@ import CreateInterview from '../components/interviews/CreateInterview';
 import CreateNetworkingContact from '../components/networkingContacts/CreateNetworkingContact';
 import CreateSkill from '../components/skills/CreateSkill';
 
-function DashboardPage({ backendUrl, currentUser }) {
+function DashboardPage({ backendUrl, currentUser, setCurrentUser }) {
     const [key, setKey] = useState('jobApplications');
     const [showModal, setShowModal] = useState({ jobApplications: false, interviews: false, networkingContacts: false, skills: false });
     const [refreshJobApplicationsList, setRefreshJobApplicationsList] = useState(false);
@@ -58,6 +58,7 @@ function DashboardPage({ backendUrl, currentUser }) {
                     <SkillsList
                         backendUrl={backendUrl}
                         currentUser={currentUser}
+                        setCurrentUser={setCurrentUser}
                         refreshList={refreshSkillsList}
                         setRefreshList={setRefreshSkillsList}
                     />

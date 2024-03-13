@@ -54,7 +54,11 @@ function App() {
         <NavBar currentUser={currentUser} onLogout={handleLogout} />
         <Routes>
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/dashboard" element={<DashboardPage backendUrl={backendUrl} currentUser={currentUser} />} />
+          <Route path="/dashboard" element={<DashboardPage
+            backendUrl={backendUrl}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser} />}
+          />
           <Route path="/login" element={<LoginPage backendUrl={backendUrl} />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/jobApplications" element={
