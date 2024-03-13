@@ -2,15 +2,21 @@ import React, { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import JobApplicationsList from '../components/jobApplications/JobApplicationsList';
 import InterviewsList from '../components/interviews/InterviewsList';
+import NetworkingContactsList from '../components/networkingContacts/NetworkingContactList';
+import SkillsList from '../components/skills/SkillList';
 import FloatingActionButton from '../components/ui/FloatingActionButton';
 import CreateJobApplication from '../components/jobApplications/CreateJobApplication';
 import CreateInterview from '../components/interviews/CreateInterview';
+import CreateNetworkingContact from '../components/networkingContacts/CreateNetworkingContact';
+import CreateSkill from '../components/skills/CreateSkill';
 
-function DashboardPage({ backendUrl, currentUser }) {
+function DashboardPage({ backendUrl, currentUser, setCurrentUser }) {
     const [key, setKey] = useState('jobApplications');
-    const [showModal, setShowModal] = useState({ jobApplications: false, interviews: false });
+    const [showModal, setShowModal] = useState({ jobApplications: false, interviews: false, networkingContacts: false, skills: false });
     const [refreshJobApplicationsList, setRefreshJobApplicationsList] = useState(false);
     const [refreshInterviewsList, setRefreshInterviewsList] = useState(false);
+    const [refreshNetworkingContactsList, setRefreshNetworkingContactsList] = useState(false);
+    const [refreshSkillsList, setRefreshSkillsList] = useState(false);
 
     // Show and hide modals based on current Tab
     const handleShowModal = (key) => setShowModal({ ...showModal, [key]: true });
@@ -40,7 +46,23 @@ function DashboardPage({ backendUrl, currentUser }) {
                         setRefreshList={setRefreshInterviewsList}
                     />
                 </Tab>
-                {/* Other tabs */}
+                <Tab eventKey="networkingContacts" title="Contacts">
+                    <NetworkingContactsList
+                        backendUrl={backendUrl}
+                        currentUser={currentUser}
+                        refreshList={refreshNetworkingContactsList}
+                        setRefreshList={setRefreshNetworkingContactsList}
+                    />
+                </Tab>
+                <Tab eventKey="skills" title="Skills">
+                    <SkillsList
+                        backendUrl={backendUrl}
+                        currentUser={currentUser}
+                        setCurrentUser={setCurrentUser}
+                        refreshList={refreshSkillsList}
+                        setRefreshList={setRefreshSkillsList}
+                    />
+                </Tab>
             </Tabs>
 
             <FloatingActionButton onClick={() => handleShowModal(key)} />
@@ -58,6 +80,20 @@ function DashboardPage({ backendUrl, currentUser }) {
                 show={showModal.interviews}
                 onHide={() => handleCloseModal('interviews')}
                 setRefreshList={setRefreshInterviewsList}
+            />
+            <CreateNetworkingContact
+                backendUrl={backendUrl}
+                currentUser={currentUser}
+                show={showModal.networkingContacts}
+                onHide={() => handleCloseModal('networkingContacts')}
+                setRefreshList={setRefreshNetworkingContactsList}
+            />
+            <CreateSkill
+                backendUrl={backendUrl}
+                currentUser={currentUser}
+                show={showModal.skills}
+                onHide={() => handleCloseModal('skills')}
+                setRefreshList={setRefreshSkillsList}
             />
         </>
     );
