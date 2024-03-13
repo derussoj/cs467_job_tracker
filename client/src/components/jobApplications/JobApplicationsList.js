@@ -7,22 +7,18 @@ import ConfirmModal from '../ui/ConfirmModal';
 // This component fetches and displays a list of job applications.
 function JobApplicationsList({ backendUrl, currentUser, refreshList, setRefreshList }) {
   const [jobApplications, setJobApplications] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedJobApplication, setSelectedJobApplication] = useState(null);
 
   useEffect(() => {
     if (currentUser !== null) {
-      setLoading(true);
       axios.get(`${backendUrl}/jobApplications/user/${currentUser.id}`)
         .then(response => {
           setJobApplications(response.data);
-          setLoading(false);
         })
         .catch(error => {
           console.error('Error fetching data:', error);
-          setLoading(false);
         });
     }
   }, [backendUrl, currentUser, refreshList]);
@@ -64,10 +60,6 @@ function JobApplicationsList({ backendUrl, currentUser, refreshList, setRefreshL
     setShowConfirmModal(false);
     setSelectedJobApplication(null);
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <>
