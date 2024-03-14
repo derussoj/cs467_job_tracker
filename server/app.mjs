@@ -63,6 +63,15 @@ app.use(session({
     }
 }))
 
+// Middleware to log session and cookie details
+app.use((req, res, next) => {
+    if (req.session) {
+        console.log('Session details:', req.session);
+        console.log('Cookie details:', req.session.cookie);
+    }
+    next();
+});
+
 // Initialize Passport and restore authentication state, if any, from the session
 app.use(passport.initialize())
 app.use(passport.session())
@@ -152,6 +161,11 @@ app.get('/auth/github',
 app.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: `${frontendUrl}/login` }),
     function (req, res) {
+        // Log session and cookie details
+        console.log('User logged in, session ID:', req.sessionID);
+        console.log('Session details:', req.session);
+        console.log('Cookie details:', req.session.cookie);
+
         // Successful authentication, redirect home.
         res.redirect(`${frontendUrl}`)
     })
