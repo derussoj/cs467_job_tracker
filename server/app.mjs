@@ -58,9 +58,19 @@ app.use(session({
     cookie: {
         secure: process.env.NODE_ENV === 'production', // Use 'true' in production, 'false' in development
         httpOnly: true,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        domain: process.env.NODE_ENV === 'production' ? '.job-tracker.tech' : undefined
     }
 }))
+
+// Middleware to log session and cookie details
+app.use((req, res, next) => {
+    if (req.session) {
+        console.log('Session details:', req.session);
+        console.log('Cookie details:', req.session.cookie);
+    }
+    next();
+});
 
 // Initialize Passport and restore authentication state, if any, from the session
 app.use(passport.initialize())
@@ -151,6 +161,11 @@ app.get('/auth/github',
 app.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: `${frontendUrl}/login` }),
     function (req, res) {
+        // Log session and cookie details
+        console.log('User logged in, session ID:', req.sessionID);
+        console.log('Session details:', req.session);
+        console.log('Cookie details:', req.session.cookie);
+
         // Successful authentication, redirect home.
         res.redirect(`${frontendUrl}`)
     })
