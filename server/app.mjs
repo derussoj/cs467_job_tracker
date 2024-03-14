@@ -58,7 +58,8 @@ app.use(session({
     cookie: {
         secure: process.env.NODE_ENV === 'production', // Use 'true' in production, 'false' in development
         httpOnly: true,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        domain: process.env.NODE_ENV === 'production' ? '.job-tracker.tech' : undefined
     }
 }))
 
